@@ -63,10 +63,27 @@ $superheroes = [
   ], 
 ];
 
+$userinput = strip_tags($_REQUEST["ui"]);
+$found = false;
 ?>
 
-<ul>
+
 <?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
+    <?php if (strtoupper($userinput) == strtoupper($superhero["alias"]) or strtoupper($userinput) == strtoupper($superhero["name"])){?>
+        <h3 id ="alias">Superhero - <?= $superhero['alias']; ?></h3>
+        <h4 id="name">Name - <?= $superhero['name']; ?></h4>
+        <p id="bio">Biography:<br><br><?= $superhero['biography']; ?></p>
+        <?php $found = true; ?>
+        <?php break; ?>
+    <?php }?>
 <?php endforeach; ?>
-</ul>
+
+<?php if ($found == false and $userinput == ""){?>
+    <ul>
+        <?php foreach ($superheroes as $superhero): ?>
+        <li><?=$superhero['alias']; ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php }elseif($found == false){?>
+    <h4 id="error">SUPERHERO NOT FOUND</h4>
+<?php }?>
